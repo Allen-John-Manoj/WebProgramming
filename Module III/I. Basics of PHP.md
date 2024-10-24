@@ -117,7 +117,7 @@
         ```
         - Arrays are very useful when you want to store a list of values.
 
-     6. **NULL (`var_dump()`):**
+     6. **NULL:**
         - A **NULL** value represents a variable with no value.
         - It can be used to **clear a variable**.
         
@@ -129,6 +129,19 @@
         var_dump($x); // Output: NULL
         ?>
         ```
+        - **Note**: `var_dump()` is used to display structured information about one or more variables, including their data types and values.
+        - Example:
+          ```php
+          <?php
+            $variable1 = "Hello, PHP!";
+            
+            
+            // Dumping a string variable
+            var_dump($variable1);
+            // Output: string(11) "Hello, PHP!"
+            ?>
+          ```
+
 
      7. **Object:**
         - **Objects** are instances of **classes**.
