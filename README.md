@@ -1,5 +1,8 @@
 # **WebProgramming**
 
-Contains info, questions, and answers for Web Programming.
+- Contains notes and important Q&A for Web Programming.
 
-(In progress)
+- No figures are included, so please refer external sources whenever required.
+
+- Notes have been generated using syllabus and classroom attachments.
+  - Accuracy of content has been maintained to the extent of my knowledge.
