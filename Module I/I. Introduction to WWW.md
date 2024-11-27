@@ -51,7 +51,7 @@ The **World Wide Web (WWW)** is the information system that operates over the In
 
 2. **1993: Mosaic Browser**
    - Developed by Marc Andreessen.
-   - Made web navigation user-friendly, contributing to the rapid growth of the WWW.
+   - Made web navigation user-friendly, contributing to the rapid growth of the WWW
 
 ---
 
@@ -69,6 +69,12 @@ The **World Wide Web (WWW)** is the information system that operates over the In
    - Semantic web for machine-readable data.
    - Decentralized applications using blockchain technology.
    - Examples: Ethereum, AI-driven search engines.
+
+---
+
+## Architecture of WWW
+
+Link: https://www.studytonight.com/computer-networks/world-wide-web
 
 ---
 
