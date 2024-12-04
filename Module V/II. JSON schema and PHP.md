@@ -5,6 +5,11 @@
 - It acts smilar to forms, specifying what type of entries are allowed, it's contrainsts, and which are mandatory (to fill).
 
 
+
+
+**Definition:** A JSON document schema is a blueprint that defines the structure and format of a JSON docment. It includes information about the data types, fields, and validation rules for the data within the document
+
+
 ## **Purpose of JSON Schema**
 
 1. **Validation**: Ensures JSON data adheres to a defined structure.
