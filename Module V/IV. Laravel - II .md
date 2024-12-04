@@ -15,6 +15,9 @@ Laravel provides:
 - Laravel is based on the **MVC (Model-View-Controller)** design pattern.
 - This pattern separates the application’s data, user interface, and control logic, organizing it into three interconnected components (using php):
 
+  ![MVC Framework](https://media.geeksforgeeks.org/wp-content/uploads/20221109172029/MVCFramework1-660x473.png)
+
+
 1. **Model**: 
    - Represents data and business logic.
    - Interacts with the database via **Eloquent ORM** (Object-Relational Mapping).
