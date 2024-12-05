@@ -24,85 +24,87 @@ Laravel provides:
    - Defines relationships, scopes, and attributes for data.
    - Example:
      ```php
-     namespace App\Models;
+      // **Location**: App/Models/A.php
+      namespace App\Models;
+      
+      use Illuminate\Database\Eloquent\Model;
+      
+      class A extends Model {
+          protected $fillable = ['x', 'y'];  
+      }
 
-     use Illuminate\Database\Eloquent\Model;
-
-     class Post extends Model {
-         protected $fillable = ['title', 'content'];
-     }
      ```
-     - `namespace App\Models;`: Defines the namespace for this model, indicating where it is located in the Laravel project.
-     - `use Illuminate\Database\Eloquent\Model;`: This imports the Eloquent ORM base class that provides the functionality to interact with the database.
-     - `class Post extends Model { ... }`: The Post model represents a record in the posts table and inherits all the functionality from the base Model class.
-     - `protected $fillable = ['title', 'content'];`: This property allows mass-assignment for the specified columns. It tells Laravel which columns can be directly filled via methods like create().
 
 2. **View**: 
    - Handles the presentation layer where data is displayed to the user.
    - Uses **Blade Templates** for dynamic content and layouts.
    - Example:
      ```blade
-     <!-- resources/views/posts.blade.php -->
-     <h1>All Posts</h1>
-     @foreach ($posts as $post)
-         <h2>{{ $post->title }}</h2>
-         <p>{{ $post->content }}</p>
-     @endforeach
+     <!-- **Location**: resources/views/abc.blade.php -->
+      <h1>All A's</h1>
+      @foreach ($data as $item) 
+          <h2>{{ $item->x }}</h2>
+          <p>{{ $item->y }}</p>
+      @endforeach
+
      ```
-     - `<!-- resources/views/posts.blade.php -->`: The location of the Blade template file that will be used to render the posts.
-     - `<h1>All Posts</h1>`: Static HTML to display a heading.
-     - `@foreach ($posts as $post)`: Blade's @foreach directive is used to loop through the $posts array, which is passed from the controller.
-     - `{{ $post->title }}`: Blade syntax for echoing out the title of each post. The {{ }} syntax safely escapes the output to prevent XSS (Cross-Site Scripting) attacks.
-     - `{{ $post->content }}`: Similarly, the content of each post is echoed inside a paragraph tag.
-     - `@endforeach`: This ends the @foreach loop.
 
 3. **Controller**: 
    - Manages application logic and communication between Model and View.
    - Receives HTTP requests, interacts with Models, and returns Views.
    - Example:
      ```php
-     namespace App\Http\Controllers;
+     // **Location**: App/Http/Controllers/MC.php
+      namespace App\Http\Controllers;
+      
+      use App\Models\A;  
+      use Illuminate\Http\Request;
+      
+      class MC extends Controller {  
+          public function index() {
+              $d = A::all();  
+              return view('abc', ['d' => $data]);  
+          }
+      
+          public function store(Request $r) {
+              A::create($r->all());  // Using 'A' model
+              return redirect('/abc');  // Redirect to the updated route '/abc'
+          }
+      }
 
-     use App\Models\Post;
-     use Illuminate\Http\Request;
-
-     class PostController extends Controller {
-         public function index() {
-             $posts = Post::all();
-             return view('posts', ['posts' => $posts]);
-         }
-
-         public function store(Request $request) {
-             Post::create($request->all());
-             return redirect('/posts');
-         }
-     }
      ```
-     - `namespace App\Http\Controllers;`: Specifies the namespace for the controller.
-     - `use App\Models\Post;`: Imports the Post model so we can interact with the posts table.
-     - `use Illuminate\Http\Request;`: Imports the Request class to handle HTTP requests and retrieve data submitted via forms.
-     - `class PostController extends Controller { ... }`: The controller class for managing posts. It extends Laravel's base Controller class, which provides common functionality.
-     - `public function index()`: This method is responsible for retrieving all posts from the database and passing them to the view.
-     - `$posts = Post::all();`: Uses Eloquent's all() method to fetch all records from the posts table.
-     - `return view('posts', ['posts' => $posts]);`: Returns the posts.blade.php view and passes the $posts variable so it can be displayed in the view.
-     - `public function store(Request $request)`: This method handles storing a new post from the form submission.
-     - `Post::create($request->all());`: Uses Eloquent's create() method to insert a new record into the posts table with the data from the form (retrieved via $request->all()).
-     - `return redirect('/posts');`: Redirects the user back to the list of posts after the new post is created.
+
 
 4. **Routing**:
    - Defines URL endpoints and links them to controllers.
    - Laravel uses routes to link requests to specific controllers and methods.
    - Example:
      ```php
-     use App\Http\Controllers\PostController;
+      // **Location**: routes/web.php
+      Route::get('/abc', [MC::class, 'index']);  
+      Route::post('/abc', [MC::class, 'store']);  
 
-     Route::get('/posts', [PostController::class, 'index']);
-     Route::post('/posts', [PostController::class, 'store']);
      ```
-     - `use App\Http\Controllers\PostController;`: Imports the PostController class into the routes file, allowing you to reference it in the route definitions.
-     - `Route::get('/posts', [PostController::class, 'index']);`: Defines a GET route for /posts, which triggers the index() method in the PostController. This will show all posts.
-     - `Route::post('/posts', [PostController::class, 'store']);`: Defines a POST route for /posts, which triggers the store() method in the PostController. This is used for form submissions to create a new post.
+     ### Explanation
+       - The Model accesses the database (specified in another file) via Eloquent.
+       - Class A inherits Laravel's Model to be the **Model** class of this program.
+       - It mass-assigns 'x' and 'y', meaning we can use a single query to edit both, instead of using multiple.<br><br>  
+       - The controller program imports the 'A' Model class.
+       - The MC class extends the controller, becoming the **Controller** of the program.
+       - The `index()` function accesses all data using `all()` from the Model class A, assigned to `$d`.
+         - Then it returns `$d` as `$data` to `abc.blade.php` (view).
+       - The `store()` function uses `$r` as a parameter, since it is accessed using POST (in routing).
+         - It then creates a new entry in database via Model A, and updates all fillable entries ('x', 'y') using `$r`.
+         - After entering the data, it redirects to the view to show the change in view (`abc.blade.php`).<br><br> 
+       - The **View** page uses Blade templating, which allows dynamic data in HTML.
+       - In the `@foreach` loop, it accesses each element in `$data` passed from *Controller MC*.
+         - The x and y entries of each entry in `$data` is displayed.
+         - We can also use Model A to display anything else like id, name, etc. However they cannot be edited, due to them not being in `$fillable`. This ensures security.<br><br>       
+       - In **Routing**, the GET method is used to call the `index()` function inside class MC from the view abc.
+       - The POST method is used to call the `store()` function, where the data from POST is sent to the function, and accessed in Controller as `Request $r`.
 ---
+
+
 
 ## **Key Features of Laravel**
 
