@@ -54,13 +54,13 @@ Laravel provides:
    - Receives HTTP requests, interacts with Models, and returns Views.
    - Example:
      ```php
-     // **Location**: App/Http/Controllers/MC.php
+     // **Location**: App/Http/Controllers/Mac.php
       namespace App\Http\Controllers;
       
       use App\Models\A;  
       use Illuminate\Http\Request;
       
-      class MC extends Controller {  
+      class Mac extends Controller {  
           public function index() {
               $d = A::all();  
               return view('abc', ['d' => $data]);  
@@ -81,8 +81,8 @@ Laravel provides:
    - Example:
      ```php
       // **Location**: routes/web.php
-      Route::get('/abc', [MC::class, 'index']);  
-      Route::post('/abc', [MC::class, 'store']);  
+      Route::get('/abc', [Mac::class, 'index']);  
+      Route::post('/abc', [Mac::class, 'store']);  
 
      ```
      ### Explanation
@@ -90,17 +90,17 @@ Laravel provides:
        - Class A inherits Laravel's Model to be the **Model** class of this program.
        - It mass-assigns 'x' and 'y', meaning we can use a single query to edit both, instead of using multiple.<br><br>  
        - The controller program imports the 'A' Model class.
-       - The MC class extends the controller, becoming the **Controller** of the program.
+       - The Mac class extends the controller, becoming the **Controller** of the program.
        - The `index()` function accesses all data using `all()` from the Model class A, assigned to `$d`.
          - Then it returns `$d` as `$data` to `abc.blade.php` (view).
        - The `store()` function uses `$r` as a parameter, since it is accessed using POST (in routing).
          - It then creates a new entry in database via Model A, and updates all fillable entries ('x', 'y') using `$r`.
          - After entering the data, it redirects to the view to show the change in view (`abc.blade.php`).<br><br> 
        - The **View** page uses Blade templating, which allows dynamic data in HTML.
-       - In the `@foreach` loop, it accesses each element in `$data` passed from *Controller MC*.
+       - In the `@foreach` loop, it accesses each element in `$data` passed from *Controller Mac*.
          - The x and y entries of each entry in `$data` is displayed.
          - We can also use Model A to display anything else like id, name, etc. However they cannot be edited, due to them not being in `$fillable`. This ensures security.<br><br>       
-       - In **Routing**, the GET method is used to call the `index()` function inside class MC from the view abc.
+       - In **Routing**, the GET method is used to call the `index()` function inside class Mac from the view abc.
        - The POST method is used to call the `store()` function, where the data from POST is sent to the function, and accessed in Controller as `Request $r`.
 ---
 
